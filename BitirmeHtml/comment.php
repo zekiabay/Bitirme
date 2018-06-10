@@ -14,7 +14,7 @@ if (isset($_POST['comm'])) {
 
 	 $sql= "INSERT INTO comment (comment_id,user_id,movie_id,user_comment) VALUES ('','$userid','$movie_id','$comment')";
     if (mysqli_query($conn, $sql)) {
-   header('Location: moviepage.php?movietitle='.$title);
+   header('Location: moviepage.php?movieid='.$movie_id);
 } else {
    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
 }

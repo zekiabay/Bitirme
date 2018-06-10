@@ -1,4 +1,10 @@
-<!DOCTYPE html>
+<?php
+ session_start();
+ if(!isset($_SESSION['name'])){
+header('Location: index.php');
+ }
+ ?>
+ <!DOCTYPE html>
 <html>
 <head>
 	<title>Vote</title>
@@ -7,14 +13,14 @@
 <body>
 	<?php 
  if(isset($_POST['req5'])){
-            $title = $_POST['req5'];
+            $id = $_POST['req5'];
  }elseif(isset($_POST['reqmark'])){
-            $title = $_POST['reqmark'];
+            $id = $_POST['reqmark'];
  }elseif(isset($_POST['reqchange'])){
-            $title = $_POST['reqchange'];
+            $id = $_POST['reqchange'];
  }
              ?>
-	<h1><?php echo $title; ?></h1>
+	
 <form action="addmovie.php" method="post">  <fieldset class="rating">
        <input type="radio" id="star10" name="rating" value="10" /><label class = "full" for="star10" title="Awesome - 10 stars"></label>
     <input type="radio" id="star9half" name="rating" value="9.5" /><label class="half" for="star9half" title="Pretty good - 9.5 stars"></label>
@@ -38,7 +44,7 @@
     <input type="radio" id="starhalf" name="rating" value="0.5" /><label class="half" for="starhalf" title="Sucks big time - 0.5 stars">
     
     </label>
-    <input type="hidden" name="req5" id="hiddenField" value="<?php echo $title ?>" />
+    <input type="hidden" name="req5" id="hiddenField" value="<?php echo $id ?>" />
 </fieldset><button type="submit" id="rate" >Rate</button></form>
 </body>
 </html>

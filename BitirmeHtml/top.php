@@ -10,7 +10,7 @@
 		<header class="register">
 			<a href="main.php" class="log">Main Page</a>
  			<a href="profile.php" class="log">Profile</a>
- 			<a href="searchoffers.php" class="log">Search</a>
+ 			<a href="social.php" class="log">Social</a>
 			<a href="logout.php" class="log">Logout</a>
 		</header>
 		<br>

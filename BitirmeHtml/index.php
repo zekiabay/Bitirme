@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,6 +8,13 @@
     p{
       float: right;
     }
+  body{
+    background-image: url('3.jpg');
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+
+}
   </style>
 </head>
 	<body onload="myFunction1()">
@@ -72,7 +80,7 @@ if (!@$conn=mysqli_connect("127.0.0.1","root","","mrs")){
 }
 
 
-$sql = "SELECT title, poster_path FROM movietable WHERE vote_average > 8 AND vote_count >20";
+$sql = "SELECT title, poster_path FROM movietable WHERE vote_average > 8 AND vote_count >20 limit 50";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
