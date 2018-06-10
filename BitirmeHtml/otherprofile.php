@@ -7,7 +7,7 @@ header('Location: index.php');
  <!DOCTYPE html>
 <html>
 <head>
-	  <meta charset="UTF-8">
+    <meta charset="UTF-8">
   <title>Profile</title>
 <link rel="stylesheet" type="text/css" href="index.css">
 <style type="text/css">
@@ -31,34 +31,32 @@ body{
         <?php  include "top.php"; 
           include "connect.php"; ?>
        </div>
-       <div align="center">
+
+   <div align="center">
          
         <?php 
-        $user_mail = $_SESSION["email"];
+        if (isset($_REQUEST['usermail'])) {
+    $_SESSION['othermail'] = $_REQUEST['usermail'];
+}
+        $user_mail = $_SESSION["othermail"];
        $dizi= mysqli_query($conn,"SELECT * FROM user WHERE user_mail='$user_mail'");
-       $rowa = mysqli_fetch_array($dizi);?>
+       $rowa = mysqli_fetch_array($dizi);
+       ?>
        <h3 style="font-style: oblique;">
          <?php 
        echo $rowa['user_name']." ".$rowa['user_surname'];
         ?>
        </h3>
-       
+        
       
 
        </div>
-       
-
-
 
        <div align="center">
-<form method="POST" action="image.php" enctype="multipart/form-data">
- <input type="file" name="myimage">
- <input type="submit" name="submit_image" value="Upload">
-</form>
   <?php 
 
-  
-
+$user_mail =  $_SESSION['othermail'];
+$user =  $_SESSION['email'];
 
 $select_path="SELECT * FROM user WHERE user_mail='$user_mail'";
 
@@ -66,24 +64,67 @@ $var1=mysqli_query($conn,$select_path);
 
 while($row=mysqli_fetch_array($var1))
 {
-
   if($row['user_photo']){
     $image_name=$row['user_photo'];
  $image_path=$row['user_folder'];
- echo '<img src="'.$image_name.'"  height="140">';
+ echo '<img src="'.$image_name.'" height="140">';
 }else{
-  echo '<img src="noldu.jpeg"  height="140">';
+  echo '<img src="noldu.jpeg" height="140">';
 }
 } ?>
 
+
+
+
+
+
+
+
 </div>
 <div align="center">
-  <form action="profile.php" method="POST">
+  <form action="otherprofile.php" method="POST">
      <button  style="margin-bottom: 2px; width: 200px" type="submit" value="watched" name = "cho" >Watched Movies</button>
      <button  style="margin-bottom: 2px; width: 200px" type="submit" value="moviesto" name = "cho" >Movies to Watch</button>
-     <button  style="margin-bottom: 2px; width: 200px" type="submit" value="recom" name = "cho1" >Get Recommendation</button>
      </form>
+
+
+
+    <?php    $friend=mysqli_query($conn, "SELECT user_follow FROM user WHERE user_mail = '$user'"); 
+$rearray = mysqli_fetch_array($friend);
+ $arr = explode(",", $rearray['user_follow']);
+ $f=0;
+ for($i=0;$i<count($arr);$i++){
+
+if($arr[$i]==$user_mail){
+$f=1;
+}
+
+
+}
+
+
+ ?>
+
+
+
+<?php if ($f==0): ?>
+  
+
+  <form action="follow.php" method="POST">
+       <button  style="margin-bottom: 2px; width: 200px" type="submit" value="<?php echo $user_mail ?>" name = "follow" >Follow</button>
+     </form>
+<?php else: ?>
+<form action="follow.php" method="POST">
+       <button  style="margin-bottom: 2px; width: 200px" type="submit" value="<?php echo $user_mail ?>" name = "unfollow" >Unfollow</button>
+     </form>
+    <?php endif ;?>
 </div>
+
+
+
+
+
+
   <?php 
     if (isset($_POST['cho'])) {
         $choise = $_POST['cho'];
@@ -121,44 +162,9 @@ echo $path."'\'".$row['title'].";".$row['id'].";";*/
 
 
 
-    }elseif (isset($_POST['cho1']) or !isset($_POST['cho'])){
-
-$re = mysqli_query($conn,"SELECT user_rec FROM user WHERE user_mail='$user_mail'");
-//$re ="448290,5422";
-$rearray = mysqli_fetch_array($re);
-if($rearray['user_rec']=="") :?>
-  <marquee id='fee' onmouseover="this.stop()" onmouseout="this.start()" 
- direction="horizontal" scrollamount="10" 
-scrolldelay="60" style="position: absolute; bottom: 15px;" loop="99999">
- 
-<?php   $r = mysqli_query($conn,"SELECT title, poster_path,id FROM movietable where vote_count>20 ORDER BY vote_average/vote_count desc LIMIT 25");
-   
-while($ow = $r->fetch_assoc()){
-echo '<a href="moviepage.php?movieid='.$ow['id'].'"><img alt='.$ow['title'].' width="150" height="240" src="https://image.tmdb.org/t/p/original'. $ow['poster_path'].'"></a>' ;
-}?>
-</marquee>
-<?php
-else:
- 
-   $arr = explode(",", $rearray['user_rec']);?>
-    <marquee id='fee' onmouseover="this.stop()" onmouseout="this.start()" 
- direction="horizontal" scrollamount="10" 
-scrolldelay="60" style="position: absolute; bottom: 15px;" loop="99999">
-<?php 
-for($i=0;$i<count($arr);$i++){
-
-  $r = mysqli_query($conn,"SELECT title,poster_path,id FROM movietable WHERE id=$arr[$i]");
-   
-while($ow = $r->fetch_assoc()){
-echo '<a href="moviepage.php?movieid='.$ow['id'].'"><img alt='.$ow['title'].' width="150" height="240" src="https://image.tmdb.org/t/p/original'. $ow['poster_path'].'"></a>' ;
-}
-}
-endif;
- 
     }
 ?>
    </marquee>
-
 
 
 </body>

@@ -9,11 +9,16 @@ header('Location: index.php');
 	<head>
     <meta charset="UTF-8">
     <title>Movie Page</title>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <link rel="stylesheet" type="text/css" href="index.css">
     <link rel="stylesheet" type="text/css" href="vote.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style type="text/css">
-
+button{
+  background-color: #99ff99;
+  color:black;
+}
     .fa {
     font-size: 15px;
     cursor: pointer;
@@ -28,7 +33,7 @@ header('Location: index.php');
        overflow: auto;
        width: 350px;
        height: 500px;
-       border-style: solid;
+       
       }
       .over{
         width: 500px;
@@ -82,7 +87,7 @@ header('Location: index.php');
   color: #797979;
 }
 body{
-    background-image: url('3.jpg');
+    background-image: url('4.jpg');
     background-size: 100%;
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -115,7 +120,7 @@ body{
      <form  action = "comment.php" method = "POST">
        <textarea name="comm" style="margin-left: 10px; margin-top:5px; border-color: #ccc; border-width: 5px; border-style:solid;" placeholder="Enter Comment Here..." cols="27" rows="3"></textarea>
        <input type="hidden" name="movie_id" value=<?php echo $result1['id'] ?> >
-       <button style="height: 5px; padding: : 2px;" type="submit">Send</button>
+       <button style="margin-top:19px; vertical-align: top;" type="submit">Send</button>
      </form>
 
      
@@ -124,7 +129,7 @@ body{
         $movie_id = $result1['id'];
           
               $sorgu1=mysqli_query($conn,"SELECT * FROM comment
-              WHERE movie_id = '$movie_id' ORDER BY comment_id DESC ");
+              WHERE movie_id = '$movie_id' ORDER BY comment_point DESC ");
 
              while($row1 = $sorgu1->fetch_assoc()) : 
 
@@ -139,7 +144,7 @@ body{
   $fromemail = $_SESSION['email'];
 $comment_id=$row1['comment_id'];
  $re = mysqli_query($conn,"SELECT commentlikes FROM comment WHERE comment_id=$comment_id");
-                 $rearray = mysqli_fetch_array($re);
+                      $rearray = mysqli_fetch_array($re);
  $arr = explode(",", $rearray['commentlikes']);
 $flag1=0;
                     for($i=0;$i<count($arr);$i++){
@@ -148,27 +153,24 @@ if($arr1[0]==$fromemail){
     
     if($arr1[1]=="0"){
       $flag1=1;
-      $arr[i]=  $fromemail+"/1"; 
-
-$new=implode(",", $arr);
+   
 
         }
       elseif($arr1[1]=="1"){
         $flag1=2;
-unset($arr[i]);
-$new=implode(",", $arr);
+
 
       }
 
 
     }
 }
-$color1="";
-$color="";
+$color1="black";
+$color0="black";
 if($flag1==1){
-$color="color: green;";
+$color0="red";
 }elseif($flag1==2){
-$color1="color: green;";
+$color1="green";
 
 }
 
@@ -178,17 +180,15 @@ $color1="color: green;";
     <div class="body">
       <span class="tip tip-right"></span>
       <div class="message">
-       <i style="float: right;<?php echo $color ?>" onclick="comment(this)" class="fa fa-thumbs-down"></i> <i style="float:right; <?php echo $color1 ?>" onclick="comment(this)" class="fa fa-thumbs-up"></i>
-        <span id="<?php echo $row1['comment_id'] ?>"><h6 style="margin:0; "><?php echo $resultname['user_name'] ?> Says: </h6><?php echo $row1['user_comment'] ?></span>
+       <i style="float: right; color: <?php echo $color0; ?>" onclick="comment(this)" class="fa fa-thumbs-down"> <?php echo $row1['comment_point']?></i> 
+       <i style="float:right; color: <?php echo $color1; ?>;" onclick="comment(this)" class="fa fa-thumbs-up"></i>
+       
+        <span id="<?php echo $row1['comment_id'] ?>"><h6 style="margin:0; "><?php echo $resultname['user_name'] ?> Says:  </h6><?php echo $row1['user_comment'] ?></span>
       </div>
     </div>
   </div>
-            
-        
-          
 
             <?php endwhile; ?>
-
 
 
      </div>   
@@ -305,11 +305,12 @@ $color1="color: green;";
 <br>
 <br>
            </div>
+           <br>
       </div>                
     <?php endif; ?>
 
     <?php if($cond==0): ?>
-       
+       <br>
       <div class="margin"> 
       <form action="addmoviestowatch.php" method="post">           
             <button style="margin-bottom: 2px; width: 200px" type="submit" name = "reqwatch" value = "<?php echo $result1['id'] ?>"/>Add Movies to Watch List</button>
@@ -337,9 +338,11 @@ $color1="color: green;";
       <div class="margin"> 
               
             <button onclick="rate()">Change Vote</button>
-              <form action="removemovie.php" method="post" >          
+              <form action="removemovie.php" method="post" >         
+               <br> 
             <button style="margin-bottom: 2px; width: 100px margin-top: 2px;" type="submit" name = "movieid"  value = "<?php echo '"'.$movid.'"' ?>" />Remove</button>
             </form>
+
      <div class="ss" id="ss1">
 <form action="addmovie.php" method="post">  <fieldset class="rating">
        <input type="radio" id="star10" name="rating" value="10" /><label class = "full" for="star10" title="Awesome - 10 stars"></label>
@@ -387,7 +390,8 @@ $color1="color: green;";
       <div class="margin"> 
          
             <button onclick="rate()">Mark as Watched</button>
-            <form action="removemovie.php" method="post" >          
+            <form action="removemovie.php" method="post" >       
+             <br>   
             <button style="margin-bottom: 2px; margin-top: 2px; width: 100px" type="submit" name = "movieid"  value = "<?php echo '"'.$movid.'"' ?>" />Remove</button>
             </form>
 
@@ -470,34 +474,39 @@ echo '<a href="actorpage.php?actor_id='.$actorid.'"><img alt="'.$name.'" width="
 </div>
 <script language="javascript">
 
-  function comment(this){
+  function comment(x){
+   
   var s = x.classList;
    if( s =="fa fa-thumbs-up"){
     var c =x.nextSibling.nextSibling;
-   
-   var input='comment_id='+ c.id+'value='+0;
+   //document.getElementById("asd").innerHTML=c.id;
+    var id = c.id; var val= 1;
+    
+       var input='comment_id='+ id+'&value='+val;
+ 
  $.ajax({ 
           type:'POST',  
           url:'commentvote.php',  
           data:input,  
           success: 
         function(cevap){ 
-
+ location.reload();
         }
 
   });
 }
    else{
     var c =x.nextSibling.nextSibling.nextSibling.nextSibling;
-      
-       var input='comment_id='+ c.id+'value='+1;
+      var id = c.id; var val= 0;
+       var input='comment_id='+ id+'&value='+val;
+         
  $.ajax({ 
           type:'POST',  
           url:'commentvote.php',  
           data:input,  
           success: 
         function(cevap){ 
-
+ location.reload();
         }
    });
 

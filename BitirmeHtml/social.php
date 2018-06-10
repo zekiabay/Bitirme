@@ -14,7 +14,7 @@ header('Location: index.php');
 <link rel="stylesheet" type="text/css" href="index.css">
 <style type="text/css">
   body{
-    background-image: url('3.jpg');
+    background-image: url('4.jpg');
     background-size: 100%;
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -33,7 +33,10 @@ input {
     transition: width 0.4s ease-in-out;
     margin: 10px;
 }
-
+button{
+  background-color: #99ff99;
+  color:black;
+}
 .searchtext{
   width: 20%;
 }
@@ -56,21 +59,94 @@ input[class=searchtext]:focus {
   </div>
 
 <?php  
-
+$user_mail = $_SESSION['email'];
   if(isset($_POST['actor-title'])):
   $actor = $_POST["actor-title"];
 
-$actorquery=mysqli_query($conn, "SELECT * FROM user WHERE user_name LIKE '%$actor%'"); 
+$actorquery=mysqli_query($conn, "SELECT * FROM user WHERE user_name LIKE '%$actor%' and user_mail!='$user_mail' and admin=0 "); 
 
  while($row = $actorquery->fetch_assoc()):?>
 
-              <form action="profile.php" method="post" >          
+          <!--    <form action="otherprofile.php" method="post" >          
             <button style="margin-bottom: 2px; width: 100px margin-top: 2px;" type="submit" name = "usermail"  value = <?php echo '"'.$row['user_mail'].'"' ?> /><?php echo $row['user_name'] ?></button>
-            </form>
+            </form>-->
+<?php
+$e=$row['user_mail'];
+$fr=mysqli_query($conn, "SELECT * FROM user WHERE user_mail = '$e'"); 
+$fetcar = mysqli_fetch_array($fr);
+  if($fetcar['user_photo']){
+    $image_name=$fetcar['user_photo'];
+ //$image_path=$fetcarr['user_folder'];
+ $im='<img src="'.$image_name.'" height="180">';
+}else{
+ $im= '<img src="noldu.jpeg" height="180">';
+}
+  echo '<div style="float:left; margin:2px;">';
+  ?>
+   <h3 style="font-style: oblique;">
+         <?php 
+       echo $fetcar['user_name']." ".$fetcar['user_surname'];
+        ?>
+       </h3>
+       <?php 
+         echo "<br>";
+  echo '<a href="otherprofile.php?usermail='.$fetcar['user_mail'].'">'.$im.'</a></label>';
+echo '</div>';?>
+
+
+
+
+
 
 <?php 
 endwhile;
 endif;
 ?>
+  
+      <div>
+          <h3 style="clear: left;">My Friends</h3>
+     <?php 
+        
+        $friend=mysqli_query($conn, "SELECT user_follow FROM user WHERE user_mail = '$user_mail'"); 
+$rearray = mysqli_fetch_array($friend);
+ $arr = explode(",", $rearray['user_follow']);
+ for($i=0;$i<count($arr);$i++):
+
+if($arr[$i]!=""):
+
+ $fri=mysqli_query($conn, "SELECT * FROM user WHERE user_mail = '$arr[$i]'"); 
+$fetcarr = mysqli_fetch_array($fri);
+  if($fetcarr['user_photo']){
+    $image_name=$fetcarr['user_photo'];
+ //$image_path=$fetcarr['user_folder'];
+ $im='<img src="'.$image_name.'" height="180">';
+}else{
+ $im= '<img src="noldu.jpeg" height="180">';
+}
+  echo '<div style="float:left; margin:2px;">';
+  ?>
+   <h3 style="font-style: oblique;">
+         <?php 
+       echo $fetcarr['user_name']." ".$fetcarr['user_surname'];
+        ?>
+       </h3>
+       <?php 
+  echo "<br>";
+  echo '<a href="otherprofile.php?usermail='.$fetcarr['user_mail'].'">'.$im.'</a></label>';
+
+echo '</div>';
+
+       ?>
+
+            <!--  <form action="otherprofile.php" method="post" >          
+            <button style="margin-bottom: 2px; width: 100px margin-top: 2px;" type="submit" name = "usermail"  value = <?php echo '"'.$arr[$i].'"' ?> /><?php echo $arr[$i] ?></button>
+            </form>-->
+   
+          <?php endif;endfor; ?>
+     
+      </div>
+    
+
+
     </body>
 </html>

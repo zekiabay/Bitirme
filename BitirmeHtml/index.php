@@ -9,7 +9,7 @@
       float: right;
     }
   body{
-    background-image: url('3.jpg');
+    background-image: url('4.jpg');
     background-size: 100%;
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -23,7 +23,7 @@
 		<p class="logotext">Movie Recommendation System</p></div>
 		
 		<header class="register">
-			<a href="index1.php" class="log">Login/Sign-in</a>
+			<a href="index1.php" class="log">Login/Sign-up</a>
 
 		</header>
     <script language="javascript">
