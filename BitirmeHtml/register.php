@@ -1,7 +1,7 @@
 <?php 
 session_start();
 include "connect.php"; 
-if(isset($_POST['user_name'])){
+if(isset($_POST['user_name']) and $_POST['user_name']){
 	$user_name = $_POST["user_name"];
 	$user_surname = $_POST["user_surname"];
 	$user_mail = $_POST["user_mail"];
@@ -15,5 +15,8 @@ if(isset($_POST['user_name'])){
 } else {
    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
 }
+}
+else{
+	header('Location: index1.php');
 }
 ?>

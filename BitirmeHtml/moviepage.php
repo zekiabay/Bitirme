@@ -33,7 +33,6 @@ button{
        overflow: auto;
        width: 350px;
        height: 500px;
-       
       }
       .over{
         width: 500px;
@@ -274,7 +273,7 @@ $color1="green";
 
     	<div class="margin"> 
     	        
-            <button onclick="rate()">Add Watched List</button>
+            <button onclick="rate()">Add to Watched List</button>
                 <div class="ss" id="ss1">
 <form action="addmovie.php" method="post">  <fieldset class="rating">
        <input type="radio" id="star10" name="rating" value="10" /><label class = "full" for="star10" title="Awesome - 10 stars"></label>
@@ -313,7 +312,7 @@ $color1="green";
        <br>
       <div class="margin"> 
       <form action="addmoviestowatch.php" method="post">           
-            <button style="margin-bottom: 2px; width: 200px" type="submit" name = "reqwatch" value = "<?php echo $result1['id'] ?>"/>Add Movies to Watch List</button>
+            <button style="margin-bottom: 2px; width: 153.5px" type="submit" name = "reqwatch" value = "<?php echo $result1['id'] ?>"/>Watch Later</button>
             </form>
       </div>  
 
@@ -340,7 +339,7 @@ $color1="green";
             <button onclick="rate()">Change Vote</button>
               <form action="removemovie.php" method="post" >         
                <br> 
-            <button style="margin-bottom: 2px; width: 100px margin-top: 2px;" type="submit" name = "movieid"  value = "<?php echo '"'.$movid.'"' ?>" />Remove</button>
+            <button style="margin-bottom: 2px; width: 180px margin-top: 2px;" type="submit" name = "movieid"  value = "<?php echo '"'.$movid.'"' ?>" />Remove Watched List</button>
             </form>
 
      <div class="ss" id="ss1">
@@ -392,7 +391,7 @@ $color1="green";
             <button onclick="rate()">Mark as Watched</button>
             <form action="removemovie.php" method="post" >       
              <br>   
-            <button style="margin-bottom: 2px; margin-top: 2px; width: 100px" type="submit" name = "movieid"  value = "<?php echo '"'.$movid.'"' ?>" />Remove</button>
+            <button style="margin-bottom: 2px; margin-top: 2px; width: 180px" type="submit" name = "movieid"  value = "<?php echo '"'.$movid.'"' ?>" />Remove Watch Later</button>
             </form>
 
               <div class="ss" id="ss1">

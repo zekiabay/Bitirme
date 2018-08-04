@@ -37,7 +37,7 @@ header('Location: index.php');
              $result1=mysqli_fetch_array($sorgu1);
               	?>
  <h1><?php echo $result1['actor_name']?></h1>   
-<div > <?php echo '<img style="float:left; margin: 0px 25px 25px;" alt='.$result1['actor_name'].' width="23%" height="23%" src="https://image.tmdb.org/t/p/original'.$result1['actor_poster'].'">';?>    </div>
+<div > <?php echo '<img style="float:left; margin: 0px 25px 25px;" alt='.$result1['actor_name'].' width="22%" height="22%" src="https://image.tmdb.org/t/p/original'.$result1['actor_poster'].'">';?>    </div>
              
 <div class="margin" >                                 
            

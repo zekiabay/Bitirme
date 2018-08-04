@@ -376,7 +376,7 @@ $fetcharray=mysqli_fetch_array($fetch);
 
             <div class="field-wrap" style="float: left;">
              
-              <input type="text" placeholder="Productor" class="input" name="productor">
+              <input type="text" placeholder="Producer" class="input" name="productor">
             </div>
 
             <div class="field-wrap" style="float: left;">
